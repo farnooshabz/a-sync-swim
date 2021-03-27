@@ -26,6 +26,20 @@ describe('server responses', () => {
     done();
   });
 
+  describe('server GET request', () => {
+    it('should response to a GET request', (done) => {
+      let {req, res} = server.mock('/','GET');
+      const commands = ['up','down','left','right'];
+
+      httpHandler.router(req, res);
+      expect(res._responseCode).to.equal(200);
+      expect(res._ended).to.equal(true);
+      expect(commands).to.contain(res._data.toString());
+
+      done();
+    })
+  })
+
   xit('should respond with 404 to a GET request for a missing background image', (done) => {
     httpHandler.backgroundImageFile = path.join('.', 'spec', 'missing.jpg');
     let {req, res} = server.mock('FILL_ME_IN', 'GET');
